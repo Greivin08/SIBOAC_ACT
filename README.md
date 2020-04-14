@@ -1,2 +1,0 @@
-# SIBOAC_ACT
-ADC 2
