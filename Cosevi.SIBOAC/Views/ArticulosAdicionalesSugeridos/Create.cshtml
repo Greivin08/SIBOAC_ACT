@@ -1,0 +1,438 @@
+﻿@model Cosevi.SIBOAC.Models.Articulos_Adicionales_Sugeridos
+
+@{
+    ViewBag.Title = "Nuevo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Nos suscribimos al evento change de nuestro primer dropsownlist
+        $("#codigo").change(function ()
+        {
+            //Limpiamos los otros dropsownlist
+            if ($("#codigo").val() == 0)
+            {
+                $("#Departamento").empty();
+                $("#FechaDeInicio").empty();
+                $("#FechaFin").empty();
+                $("#Conducta").append($("<option/>").val("0").text("Seleccione..."));
+               // $("#Localidad").empty();$("#Localidad").append($("<option/>").val("0").text("Seleccione..."));
+                return;
+            }//Ejecutamos el AJAX para llamar a la acción "ObtenerDepartamento"
+            $.ajax(
+                {
+                    url:'@Url.Action("ObtenerConductaCreate")',
+                    type: "POST",
+                    dataType: "json",
+                    async:true,
+                    data: {
+                        'CodigoArticulo': $("#codigo").val()
+                    },
+                    success:function(items, responseText)
+                    {
+                        $("#Conducta").empty();
+                        $("#Conducta").append($("<option />").val("0").text("Seleccione..."));
+                        $.each(items,function(i, item)
+                        {
+                            $("#Conducta").append($("<option />").val(item.Id).text(item.Nombre));
+                        });
+                    },
+                    error:function()
+                    {
+                        alert('Error...');
+                    }
+                });
+        });
+        $("#Conducta").change(function () {
+            if ($("#Conducta").val() == 0) {
+                $("#FechaDeInicio").empty();
+                $("#FechaDeFin").empty();
+                $("#FechaInicio").append($("<option/>").val("0").text("Seleccione..."));
+                return;
+            }//Ejecutamos el AJAX para llamar a la acción "ObtenerLocalidad"
+            $.ajax(
+                {
+                    url: '@Url.Action("ObtenerFechaInicio")',
+                    type: "POST",
+                    dataType: "json",
+                    async: true,
+                    data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#Conducta").val() },
+                    success: function (items, responseText) {
+                        $("#FechaDeInicio").empty(); $("#FechaDeInicio").append($("<option/>").val("0").text("Seleccione..."));
+                        $.each(items, function (i, item) {
+                            $("#FechaDeInicio").append($("<option/>").val(item.Id).text(item.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert('Error...');
+                    }
+                });
+        });
+        $("#FechaDeInicio").change(function () {
+            if ($("#FechaDeInicio").val() == 0) {
+                $("#FechaDeFin").empty();
+                $("#FechaDeFin").append($("<option/>").val("0").text("Seleccione..."));
+                return;
+            }//Ejecutamos el AJAX para llamar a la acción "ObtenerLocalidad"
+            $.ajax(
+                {
+                    url: '@Url.Action("ObtenerFechaFinal")',
+                    type: "POST",
+                    dataType: "json",
+                    async: true,
+                    data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#Conducta").val(), 'FechaDeInicio': $("#FechaDeInicio").val() },
+                    success: function (items, responseText) {
+                        $("#FechaDeFin").empty(); $("#FechaDeFin").append($("<option/>").val("0").text("Seleccione..."));
+                        $.each(items, function (i, item) {
+                            $("#FechaDeFin").append($("<option/>").val(item.Id).text(item.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert('Error...');
+                    }
+                });
+        });
+
+
+
+        $("#FechaDeFin").change(function () {
+            if ($("#FechaDeInicio").val() == 0 || $("#FechaDeFin").val() == 0) {
+                $("#CodRetTemp").empty();
+                $("#CodRetTemp").append($("<option/>").val("0").text("Seleccione..."));
+                return;
+            }//Ejecutamos el AJAX para llamar a la acción "ObtenerLocalidad"
+            $.ajax(
+                {
+                    url: '@Url.Action("ObtenerArticuloRetiroTemporal")',
+                    type: "POST",
+                    dataType: "json",
+                    async: true,
+                    data: {
+                        'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#Conducta").val(), 'FechaDeInicio': $("#FechaDeInicio").val(), 'FechaDeFin': $("#FechaDeFin").val()
+                    },
+                    success: function (items, responseText) {
+                        $("#CodRetTemp").empty();
+                        $("#CodRetTemp").append($("<option />").val("0").text("Seleccione..."));
+                        $.each(items, function (i, item) {
+                            $("#CodRetTemp").append($("<option />").val(item.Id).text(item.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert('Error...');
+                    }
+                });
+        });
+
+
+
+
+
+
+        $("#CodRetTemp").change(function () {
+            if ($("#FechaDeInicio").val() == 0 || $("#FechaDeFin").val() == 0) {
+                $("#CodInm").empty();
+                $("#CodInm").append($("<option/>").val("0").text("Seleccione..."));
+                return;
+            }//Ejecutamos el AJAX para llamar a la acción "ObtenerLocalidad"
+            $.ajax(
+                {
+                    url: '@Url.Action("ObtenerArticuloInmovilizacion")',
+                    type: "POST",
+                    dataType: "json",
+                    async: true,
+                    data: {
+                        'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#Conducta").val(), 'FechaDeInicio': $("#FechaDeInicio").val(), 'FechaDeFin': $("#FechaDeFin").val()
+                    },
+                    success: function (items, responseText) {
+                        $("#CodInm").empty();
+                        $("#CodInm").append($("<option />").val("0").text("Seleccione..."));
+                        $.each(items, function (i, item) {
+                            $("#CodInm").append($("<option />").val(item.Id).text(item.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert('Error...');
+                    }
+                });
+        });
+    });
+
+    window.onload = function () {
+
+
+        $.ajax(
+            {
+                url: '@Url.Action("ObtenerConductaCreate")',
+                type: "POST",
+                dataType: "json",
+                async: true,
+                data: {
+                    'CodigoArticulo': $("#codigo").val()
+                },
+                success: function (items, responseText) {
+                    var idArt = $("#codigo").val();
+                    var cond = $("#IdConducta").val();
+                    $.each(items, function (i, item) {
+                        $("#Conducta").append($("<option />").val(item.Id).text(item.Nombre));
+
+                    });
+
+                    $("#Conducta option").each(function () {
+                        if ($(this).attr('value') == cond) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+
+                },
+                error: function () {
+                    alert('Error...');
+                }
+            });
+        $.ajax(
+            {
+                url: '@Url.Action("ObtenerFechaInicio")',
+                type: "POST",
+                dataType: "json",
+                async: true,
+                data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#IdConducta").val() },
+                success: function (items, responseText) {
+                    var idArt = $("#codigo").val();
+                    var cond = $("#IdConducta").val();
+                    var FechaIni = $("#IdFechaDeInicio").val();
+                    $.each(items, function (i, item) {
+                        $("#FechaDeInicio").append($("<option/>").val(item.Id).text(item.Nombre));
+                    });
+
+                    $("#FechaDeInicio option").each(function () {
+                        if ($(this).attr('value') == FechaIni) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+
+                },
+                error: function () {
+                    alert('Error...');
+                }
+            });
+
+        $.ajax(
+            {
+
+                url: '@Url.Action("ObtenerFechaFinal")',
+                type: "POST",
+                dataType: "json",
+                async: true,
+                data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#IdConducta").val(), 'FechaDeInicio': $("#IdFechaDeInicio").val() },
+                success: function (items, responseText) {
+                    var idArt = $("#codigo").val();
+                    var cond = $("#IdConducta").val();
+                    var FechaIni = $("#IdFechaDeInicio").val();
+                    var FechaFin = $("#IdFechaDeFin").val();
+                    $.each(items, function (i, item) {
+                        $("#FechaDeFin").append($("<option/>").val(item.Id).text(item.Nombre));
+                    });
+                    $("#FechaDeFin option").each(function () {
+                        if ($(this).attr('value') == FechaFin) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Error...');
+                }
+            });
+
+        $.ajax(
+            {
+
+                url: '@Url.Action("ObtenerArticuloRetiroTemporal")',
+                type: "POST",
+                dataType: "json",
+                async: true,
+                data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#IdConducta").val(), 'FechaDeInicio': $("#IdFechaDeInicio").val(), 'FechaDeFin': $("#IdFechaDeFin").val() },
+                success: function (items, responseText) {
+                    var idArt = $("#codigo").val();
+                    var cond = $("#IdConducta").val();
+                    var FechaIni = $("#IdFechaDeInicio").val();
+                    var FechaFin = $("#IdFechaDeFin").val();
+                    var codArtRetTemp = $("#Idcodigo_retiro_temporal").val();
+                    $.each(items, function (i, item) {
+                        $("#CodRetTemp").append($("<option/>").val(item.Id).text(item.Nombre));
+                    });
+                    $("#CodRetTemp option").each(function () {
+                        if ($(this).attr('value') == codArtRetTemp) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Error...');
+                }
+            });
+
+        $.ajax(
+            {
+
+                url: '@Url.Action("ObtenerArticuloInmovilizacion")',
+                type: "POST",
+                dataType: "json",
+                async: true,
+                data: { 'CodigoArticulo': $("#codigo").val(), 'Conducta': $("#IdConducta").val(), 'FechaDeInicio': $("#IdFechaDeInicio").val(), 'FechaDeFin': $("#IdFechaDeFin").val() },
+                success: function (items, responseText) {
+                    var idArt = $("#codigo").val();
+                    var cond = $("#IdConducta").val();
+                    var FechaIni = $("#IdFechaDeInicio").val();
+                    var FechaFin = $("#IdFechaDeFin").val();
+                    var codArtRetTemp = $("#Idcodigo_retiro_temporal").val();
+                    var codInm = $('#Idcodigo_inmovilizacion').val();
+                    $.each(items, function (i, item) {
+                        $("#CodInm").append($("<option/>").val(item.Id).text(item.Nombre));
+                    });
+                    $("#CodInm option").each(function () {
+                        if ($(this).attr('value') == codInm) {
+                            $(this).attr("selected", "selected");
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Error...');
+                }
+            });
+
+
+    }
+
+</script>
+
+
+<h2>Nuevo</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Artículo Adicional Sugerido</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+        <div class="form-group">
+            <input type="hidden" id="IdCodigo" value="@ViewData["Codigo"]" />
+            <input type="hidden" id="IdConducta" value="@ViewData["Conducta"]" />
+            <input type="hidden" id="IdFechaDeFin" value="@ViewData["Fecha_final"]" />
+            <input type="hidden" id="IdFechaDeInicio" value="@ViewData["Fecha_inicio"]" />
+            <input type="hidden" id="Idcodigo_retiro_temporal" value="@ViewData["Retiro_temporal"]" />
+            <input type="hidden" id="Idcodigo_inmovilizacion" value="@ViewData["Inmovilizacion"]" />
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Codigo, " Código de artículo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("codigo", (IEnumerable<SelectListItem>)ViewBag.ComboArticulos, "Seleccione", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Conducta, "Conducta", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Conducta" name="Conducta" class="form-control"> <option value="0">Seleccione...</option> </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha_inicio, "Fecha inicial", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <div class="input-daterange input-group" id="datepicker">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    <select id="FechaDeInicio" name="fecha_inicio" class="form-control"> <option value="0">Seleccione...</option> </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha_final, "Fecha final", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <div class="input-daterange input-group" id="datepicker">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    <select id="FechaDeFin" name="fecha_final" class="form-control"> <option value="0">Seleccione...</option> </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Estado, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Estado, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })*@
+                @Html.DropDownListFor(model => model.Estado,
+                  new List<SelectListItem> {
+                       new SelectListItem { Value = "A" , Text = "Activo" },
+                       new SelectListItem { Value = "I" , Text = "Inactivo" }
+                    },
+                  new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Retiro_temporal, "Código retiro temporal", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="CodRetTemp" name="codigo_retiro_temporal" class="form-control"> <option value="0">Seleccione...</option> </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Inmovilizacion, "Código inmovilización", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="CodInm" name="codigo_inmovilizacion" class="form-control"> <option value="0">Seleccione...</option> </select>
+            </div>
+        </div>
+
+        @*@if (@ViewData["codigo_retiro_temporal"] == null && @ViewData["codigo_inmovilizacion"] == null ) {*@
+
+        @*}*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(
+            function () {
+                Calendario();
+
+            });
+    </script>
+    <script>
+        function Calendario() {
+            $('.input-daterange').datepicker({
+                startView: 2,
+                autoclose: true,
+                orientation: 'bottom auto',
+                todayHighlight: true,
+                todayBtn: true,
+                format: 'dd/mm/yyyy'
+            });
+        };
+    </script>
+
+}

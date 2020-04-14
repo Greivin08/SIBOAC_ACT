@@ -1,0 +1,79 @@
+﻿@model Cosevi.SIBOAC.Models.Articulos_Adicionales_Sugeridos
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Artículo Adicionales Sugeridos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Codigo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Codigo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Conducta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Conducta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_inicio)
+        </dt>
+
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_inicio)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_final)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_final)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Retiro_temporal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Retiro_temporal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inmovilizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inmovilizacion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { CodArticulo = Model.Codigo, Conducta = Model.Conducta, FechaInicio = Model.Fecha_inicio, FechaFin = Model.Fecha_final }) |
+    @Html.ActionLink("Regresar a la lista", "Index")
+</p>

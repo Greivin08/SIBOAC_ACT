@@ -1,0 +1,120 @@
+﻿@model Cosevi.SIBOAC.Models.SIBOACUsuarios
+
+@{
+    ViewBag.Title = "Inactivar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (Model.Activo == true)
+{
+    <h2>Inactivar</h2>
+}
+else
+{
+    <h2>Activar</h2>
+}
+
+<h3>¿Está seguro que desea cambiar el estado?</h3>
+<div>
+    <h4>Mantenimiento de Usuarios</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.Label("Nombre usuario")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario)
+        </dd>
+
+
+        <dt>
+            @Html.Label("Identificación")
+       </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Identificacion)
+        </dd>
+
+        <dt>
+            @Html.Label("Lugar de trabajo")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LugarTrabajo)
+        </dd>
+
+        <dt>
+            @Html.Label("Último ingreso")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UltimoIngreso)
+        </dd>
+
+        <dt>
+            @Html.Label("Roles")
+        </dt>
+
+        <dd>
+            <table align="center" width="98%">
+                <tr width="100%">
+                    <td width="1%"></td>
+                    <td>
+
+
+                        @foreach (var i in ViewBag.ListaMostrar)
+                        {
+
+                            if (i.Selected == true)
+                            {
+                                <input type="checkbox" name="SIBOACRoles" value="@i.Value" checked="checked" disabled="disabled" />
+                                <label for="@i.Text">@i.Text</label>
+                                        <br />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="SIBOACRoles" value="@i.Value" disabled="disabled" />
+                                <label for="@i.Text">@i.Text</label>
+                                        <br />
+                            }
+
+                        }
+
+
+                    </td>
+                </tr>
+
+            </table>
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @if (Model.Activo == true)
+            {
+                <input type="submit" value="Inactivar" class="btn btn-warning" />
+            }
+            else
+            {
+                <input type="submit" value="Activar" class="btn btn-success" />
+            }
+            |
+            @Html.ActionLink("Regresar a la lista", "Index")
+        </div>
+    }
+</div>

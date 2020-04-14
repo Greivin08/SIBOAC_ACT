@@ -1,0 +1,142 @@
+﻿@model IEnumerable <Cosevi.SIBOAC.Models.SIBOACBITADJUNTOS>
+@{
+    ViewBag.Title = "_BitacoraAdjuntos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-group" style="margin-left :1%">
+    <h2>Bitácoras de Adjuntos</h2>
+    <h4>Filtro</h4>
+</div>
+<hr />
+@using (Html.BeginForm("GetBitacoraAdjuntos", "Reporte", FormMethod.Get))
+{
+        <div class="form-group">
+            <div class="col-md-12 pull-left">
+                <div class="checkbox">
+                    <label>
+                        <input name="tipoConsulta1" id="tipoConsulta1" type="checkbox" value="1" onclick="boxDisable1(datepicker, $(this));">Por Fecha: 
+                    </label>
+                </div>
+            </div>
+            <br />
+            <br />
+            @*<input name="tipoConsulta1" id="tipoConsulta1" type="checkbox" value="1" class="control-label"> Reporte por fecha:*@                      
+            <label class="control-label col-md-12 pull-left">Rango de fechas</label>
+            <div class="col-md-7">
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="desde" type="text" class="input-sm form-control" name="desde" value="@Request.Params["desde"]" disabled/>
+                    <span class="input-group-addon">a</span>
+                    <input id="hasta" type="text" class="input-sm form-control" name="hasta"  value="@Request.Params["hasta"]" disabled/>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />        
+        <div class="form-group">
+            <div class="col-md-12 pull-left">
+                <div class="checkbox">
+                    <label>
+                        <input name="tipoConsulta2" id="tipoConsulta2" type="checkbox" value="1" onclick="boxDisable2($(this));"> Por Parte Oficial o Boleta de Campo:
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="control-label col-md-12 pull-left"> Opción:</label>
+                <div id="tipoAdjuntoclass" class="col-md-4">
+                    <select id="tipoAdjunto" name="TipoAdjunto" class="form-control" value="@Request.Params["TipoAdjunto"]" disabled>
+                        <option value="Parte Oficial">Parte Oficial</option>
+                        <option value="Boleta">Boleta</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div>
+                <label class="control-label col-md-12 pull-left"> Serie:</label>
+                <div class="col-md-4">
+                    <input id="serie" type="text" name="Serie" class="input-sm form-control" value="@Request.Params["Serie"]" disabled />
+                </div>
+            </div>
+            <br />
+            <br />
+            <div>
+                <label class="control-label col-md-12 pull-left"> Número:</label>
+                <div class="col-md-4">
+                    <input id="numero" type="text" name="Numero" class="input-sm form-control" value="@Request.Params["Numero"]" disabled />
+                </div>
+            </div>
+        </div>
+        <br />                               
+        <div class=" col-md-12 pull-left" style="margin-top :3%">
+            <input type="submit" id="reporte" value="Generar Reporte" class="btn btn-success" />
+        </div>
+        
+}
+
+<iframe id="ifrmReportViewer" style="height:1200px; width:100%;" frameborder="0" scrolling="no"></iframe>
+@section scripts{    
+
+    <script>
+        $(document).ready(
+        function () {            
+            Calendario();
+            ReportCall();             
+        });
+    </script>
+
+    <script>
+
+        function ReportCall() {
+
+            var url = '/Reports/ViewerPage.aspx?reporteID=@ViewBag.ReporteID&nombreReporte=@ViewBag.NombreReporte&parametros=@ViewBag.Parametros';
+
+            var myFrame = document.getElementById('ifrmReportViewer');
+            if (myFrame !== null) {
+                if (myFrame.src) {
+                    myFrame.src = url;
+                }
+                else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                    myFrame.contentWindow.location = url;
+                }
+                else {
+                    myFrame.setAttribute('src', url);
+                }
+            }
+
+            return false;
+        }
+
+            function Calendario() {
+        $('.input-daterange').datepicker({
+            startView: 2,
+            autoclose: true,
+            orientation: 'bottom auto',
+            todayHighlight: true,
+            todayBtn: true
+        });
+            };
+
+            function boxDisable1(e, t) {
+                if (t.is(':checked')) {
+                    $(e).find('input').removeAttr('disabled');
+                } else {
+                    $(e).find('input').attr('disabled', true);
+                }
+            }
+
+            function boxDisable2(t) {
+                if (t.is(':checked')) {
+                    document.getElementById('tipoAdjunto').disabled = false;                       
+                    document.getElementById('serie').disabled = false;
+                    document.getElementById('numero').disabled = false;
+                } else {
+                    document.getElementById('tipoAdjunto').disabled = true;
+                    document.getElementById('serie').disabled = true;
+                    document.getElementById('numero').disabled = true;
+                }
+            }
+
+    </script>
+}

@@ -1,0 +1,151 @@
+﻿@model PagedList.IPagedList<Cosevi.SIBOAC.Models.TipoVehiculoPorCodigoPorClase>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Tipos de Vehículos por Código y Clase</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoTiposVehiculos)
+        </th>
+        <td>
+            @Html.Label("Descripción")
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoClasePlaca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoCodigoPlaca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoTipoVeh)
+        </th>
+        <td>
+            @Html.Label("Descripción")
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().FechaDeInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().FechaDeFin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    if (item.Estado == "I")
+    {
+        <tr class="warning">
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoTiposVehiculos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionCodigoTiposVehiculos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoClasePlaca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoCodigoPlaca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoTipoVeh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionCodigoTipoVeh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeFin)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+                @Html.ActionLink("Detalles", "Details", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+                @Html.ActionLink("Eliminar", "RealDelete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+                @if (item.Estado == "I")
+                {
+                    @Html.ActionLink("Activar", "Delete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh })
+                }
+                else
+                {
+                    @Html.ActionLink("Inactivar", "Delete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh })
+                }
+            </td>
+        </tr>
+    }
+
+    else
+    {
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoTiposVehiculos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionCodigoTiposVehiculos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoClasePlaca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoCodigoPlaca)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoTipoVeh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescripcionCodigoTipoVeh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeFin)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+            @Html.ActionLink("Detalles", "Details", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+            @Html.ActionLink("Eliminar", "RealDelete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh }) |
+            @if (item.Estado == "I")
+            {
+                @Html.ActionLink("Activar", "Delete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh })
+            }
+            else
+            {
+                @Html.ActionLink("Inactivar", "Delete", new { codigoTiposVehiculos = item.CodigoTiposVehiculos, codigoClasePlaca = item.CodigoClasePlaca, codigoCodigoPlaca = item.CodigoCodigoPlaca, codigoTipoVeh = item.CodigoTipoVeh })
+            }
+
+        </td>
+    </tr>
+
+    }
+}
+
+</table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

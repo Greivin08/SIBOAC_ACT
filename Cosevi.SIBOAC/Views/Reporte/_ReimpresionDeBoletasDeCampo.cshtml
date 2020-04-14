@@ -1,0 +1,69 @@
+﻿<h2>Reimpresión de Boletas de Campo</h2>
+<h4>Filtro</h4>
+<hr />
+@using (Html.BeginForm("GetReimpresionDeBoletasDeCampo", "Reporte", FormMethod.Get))
+{
+
+    <div class="form-group">
+        <label class="control-label col-md-1"> Serie:</label>
+        <div class="col-md-4">
+            <input type="text" name="Serie"  class = "form-control" value="@Request.Params["Serie"]" />
+        </div>
+    </div>
+    <br/>
+    <br />
+    <div class="form-group">
+        <label class="control-label col-md-1"> Numero Boleta:</label>
+        <div class="col-md-4">
+            <input type="text" name="NumeroBoleta" class="form-control" value="@Request.Params["NumeroBoleta"]" />
+        </div>
+    </div>
+    <br />
+    <br />
+    <br /><br />
+          <div class="pull-right col-md-12">
+              <input type="submit" id="reporte" value="Generar Reporte" class="btn btn-success" />
+              <button id="limpiarCampos" type="button" class="btn btn-danger">Limpiar</button>
+          </div>
+}
+
+<iframe id="ifrmReportViewer" style="height:1200px; width:100%;" frameborder="0" scrolling="auto"></iframe>
+@section scripts
+    {
+    <script>
+        $(document).ready(
+        function () {    
+            limpiarCampos();
+            ReportCall();
+        });
+    </script>
+
+    <script>
+
+        function limpiarCampos() {
+            $('#limpiarCampos').click(function () {
+                $('input[type="text"]').val('');
+            });
+        };
+
+        function ReportCall() {
+
+            var url = '/Reports/ViewerPage.aspx?reporteID=@ViewBag.ReporteID&nombreReporte=@ViewBag.NombreReporte&parametros=@ViewBag.Parametros';
+
+            var myFrame = document.getElementById('ifrmReportViewer');
+            if (myFrame !== null) {
+                if (myFrame.src) {
+                    myFrame.src = url;
+                }
+                else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                    myFrame.contentWindow.location = url;
+                }
+                else {
+                    myFrame.setAttribute('src', url);
+                }
+            }
+
+            return false;
+        }    
+    </script>
+}

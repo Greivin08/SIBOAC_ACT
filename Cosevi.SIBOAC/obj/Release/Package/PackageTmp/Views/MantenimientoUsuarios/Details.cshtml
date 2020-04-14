@@ -1,0 +1,130 @@
+﻿@model Cosevi.SIBOAC.Models.SIBOACUsuarios
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles</h2>
+
+<div>
+    <h4>Mantenimiento de Usuarios</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.Label("Nombre usuario")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usuario)
+        </dd>
+
+        <dt>
+            @Html.Label("Identificación")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Identificacion)
+        </dd>
+
+
+        <dt>
+            @Html.Label("Lugr de Trabajo")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LugarTrabajo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.Label("Código")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.codigo)
+        </dd>
+
+        <dt>
+            @Html.Label("Última actualización")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeActualizacionClave)
+        </dd>
+
+        <dt>
+            @Html.Label("Estado")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo.Value)
+        </dd>
+        <dt>
+            @Html.Label("Último ingreso")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UltimoIngreso)
+        </dd>
+
+
+        <dt>
+            @Html.Label("Roles")
+        </dt>
+
+        <dd>
+            <table align="center" width="98%">
+                <tr width="100%">
+                    <td width="1%"></td>
+                    <td>
+
+
+                        @foreach (var i in ViewBag.ListaMostrar)
+                        {
+
+                            if (i.Selected == true)
+                            {
+                                <input type="checkbox" name="SIBOACRoles" value="@i.Value" checked="checked" disabled="disabled" />
+                                <label for="@i.Text">@i.Text</label>
+                                        <br />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="SIBOACRoles" value="@i.Value" disabled="disabled" />
+                                <label for="@i.Text">@i.Text</label>
+                                        <br />
+                            }
+
+                        }
+
+
+                    </td>
+                </tr>
+
+            </table>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Regresar a la lista", "Index")
+</p>

@@ -1,0 +1,145 @@
+﻿
+@model PagedList.IPagedList<Cosevi.SIBOAC.Models.Articulos_Adicionales_Sugeridos>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Lista";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Artículos Adicionales Sugeridos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.First().Codigo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.First().Conducta)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.First().Fecha_inicio)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.First().Fecha_final)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.First().Estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Retiro_temporal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Inmovilizacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    if (item.Estado == "I")
+    {
+        <tr class="warning">
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conducta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_inicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_final)
+            </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Retiro_temporal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Inmovilizacion)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final }) |
+            @Html.ActionLink("Detalles", "Details", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final }) |
+            @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            @if (item.Estado == "I")
+            {
+                @Html.ActionLink("Activar", "Delete", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final })
+            }
+            else
+            {
+                @Html.ActionLink("Inactivar", "Delete", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final })
+            }
+        </td>
+    </tr>
+    }
+
+    else
+    {
+        <tr>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conducta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_inicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_final)
+            </td>
+
+
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Retiro_temporal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inmovilizacion)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final }) |
+                @Html.ActionLink("Detalles", "Details", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final }) |
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                @if (item.Estado == "I")
+                {
+                    @Html.ActionLink("Activar", "Delete", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final })
+                }
+                else
+                {
+                    @Html.ActionLink("Inactivar", "Delete", new { CodArticulo = item.Codigo, Conducta = item.Conducta, FechaInicio = item.Fecha_inicio, FechaFin = item.Fecha_final })
+                }
+            </td>
+        </tr>
+    }
+}
+
+</table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+

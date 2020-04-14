@@ -1,0 +1,61 @@
+﻿@model PagedList.IPagedList<Cosevi.SIBOAC.Models.DispositivoPorRolPersona>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Lista";   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de los Dispositivos por Rol de Persona</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoRolPersona)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DescripcionRolPersona)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CodigoDispositivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DescripcionDispositivo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoRolPersona)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionRolPersona)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodigoDispositivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescripcionDispositivo)
+            </td>
+
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { CodRol = item.CodigoRolPersona, CodDisp = item.CodigoDispositivo /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Detalle", "Details", new { CodRol = item.CodigoRolPersona, CodDisp = item.CodigoDispositivo  /* id=item.PrimaryKey */ }) |           
+            @Html.ActionLink("Eliminar", "RealDelete", new { CodRol = item.CodigoRolPersona, CodDisp = item.CodigoDispositivo  /* id=item.PrimaryKey */ }) 
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

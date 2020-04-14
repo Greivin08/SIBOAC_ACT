@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Cosevi.SIBOAC.Models.BitacoraSIBOAC>
+@{
+    ViewBag.Title = "Bitácora";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Bitácora de Catálogos</h2>
+<h4>Filtro</h4>
+<hr />
+@{
+    List<SelectListItem> operacionItems = new List<SelectListItem>();
+    List<SelectListItem> tablaItems = new List<SelectListItem>();
+    List<SelectListItem> usuarioItems = new List<SelectListItem>();
+
+
+    operacionItems.Add(new SelectListItem { Text = "Todas", Value = "T" });
+    operacionItems.Add(new SelectListItem { Text = "Eliminar", Value = "D" });
+    operacionItems.Add(new SelectListItem { Text = "Inserción", Value = "I" });
+    operacionItems.Add(new SelectListItem { Text = "Actualizacion", Value = "U" });
+
+    foreach (var item in ViewBag.Tablas)
+    {
+        tablaItems.Add(new SelectListItem { Text = item.Descripcion, Value = item.Descripcion });
+    }
+
+    foreach (var item in ViewBag.Usuarios)
+    {
+        usuarioItems.Add(new SelectListItem { Text = item.Usuario, Value = item.Usuario });
+    }
+
+}
+@using (Html.BeginForm("GetBitacora", "Reporte", FormMethod.Get))
+{
+    <input type="hidden" name="TipoReporte" id="TipoReporte" value="false" />
+
+    <div class="form-group">
+        <div class="col-md-12 pull-left">
+            <label class="control-label col-md-12">Rango de fechas</label>
+            <div class="col-md-7">
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="FechaInicio" type="text" class="input-sm form-control" name="FechaInicio" value="@Request.Params["FechaInicio"]" />
+                    <span class="input-group-addon">a</span>
+                    <input id="FechaFin" type="text" class="input-sm form-control" name="FechaFin" value="@Request.Params["FechaFin"]" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <table border="0" style="margin-top: 5%">
+        <tr>
+            <td>
+                Nombre de la Tabla:
+            </td>
+            <td>
+                @Html.DropDownList("NombreTabla", new SelectList(tablaItems, "Value", "Text"), new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td>
+                Operación:
+            </td>
+            <td>
+                @Html.DropDownList("Operacion", new SelectList(operacionItems, "Value", "Text"), new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td>
+                Usuario:
+            </td>
+            <td>
+                @Html.DropDownList("Usuario", new SelectList(usuarioItems, "Value", "Text"), new { @class = "form-control" })
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <div class="pull-left">
+        <input type="submit" id="reporte" value="Generar Reporte" class="btn btn-success" />
+        <button id="limpiarCampos" type="button" class="btn btn-danger">Limpiar</button>
+    </div>
+}
+<iframe id="ifrmReportViewer" style="height:1200px; width:100%;" frameborder="0" scrolling="no"></iframe>
+@section scripts
+    {
+    <script>
+        $(document).ready(
+            function () {
+                Calendario();
+                ReportCall();
+                limpiarCampos();
+            });
+    </script>
+    <script>
+
+        function limpiarCampos() {
+            $('#limpiarCampos').click(function () {
+                $('input[type="text"]').val('');
+            });
+        };
+
+        function ReportCall() {
+
+            var url = '/Reports/ViewerPage.aspx?reporteID=@ViewBag.ReporteID&nombreReporte=@ViewBag.NombreReporte&parametros=@ViewBag.Parametros';
+
+            var myFrame = document.getElementById('ifrmReportViewer');
+            if (myFrame !== null) {
+                if (myFrame.src) {
+                    myFrame.src = url;
+                }
+                else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                    myFrame.contentWindow.location = url;
+                }
+                else {
+                    myFrame.setAttribute('src', url);
+                }
+            }
+
+            return false;
+        }
+
+        function Calendario() {
+            $('.input-daterange').datepicker({
+                startView: 2,
+                autoclose: true,
+                orientation: 'bottom auto',
+                todayHighlight: true,
+                todayBtn: true
+            });
+        };
+    </script>
+}

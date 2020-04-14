@@ -1,0 +1,76 @@
+﻿@model PagedList.IPagedList<Cosevi.SIBOAC.Models.SIBOACUsuarios>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Reiniciar Contraseña";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reiniciar Contraseña</h2>
+
+@*<p>
+    @Html.ActionLink("Nuevo Usuario", "Create")
+</p>*@
+@using (Html.BeginForm())
+{
+    <p>
+        Búsqueda: @Html.TextBox("SearchString")
+        <input type="submit" value="Buscar" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Usuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Email)
+        </th>       
+        <th>
+            @Html.DisplayNameFor(model => model.First().Nombre)
+        </th>
+        <th>
+            @Html.Label("Código")
+        </th>
+        <th>
+            @Html.Label("Última Actualización de la Clave")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Activo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+  
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.codigo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaDeActualizacionClave)
+        </td>
+        <td>
+            @Html.CheckBoxFor(modelItem => item.Activo.Value, new { @disabled = "disabled" })
+        </td>
+        <td>            
+            @Html.ActionLink("Reiniciar Contraseña", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+</table>
+<br />
+Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

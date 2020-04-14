@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "_DescargaBoleta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reporte Corto por Descarga de Boletas</h2>
+<h4>Filtro</h4>
+<hr />
+
+@using (Html.BeginForm("GetDescargaBoleta", "Reporte", FormMethod.Get))
+{
+        <div class="form-group">
+            <label class="control-label col-md-2">Seleccionar criterio para el reporte</label>
+            <div class="col-md-10">
+
+                <div class="radio" id="radioButton">
+                    @if (Request.Params["opcionRadio"] == "1")
+                    {
+                        <label><input id="radio01" type="radio" name="opcionRadio" value="1" checked="checked">Fecha de descarga</label>
+                        <br />
+                        <label><input id="radio02" type="radio" name="opcionRadio" value="2">Fecha de infracción</label>
+                    }
+                    else
+                    {
+
+                        if (Request.Params["opcionRadio"] == "2")
+                        {
+                            <label><input id="radio01" type="radio" name="opcionRadio" value="1">Fecha de descarga</label>
+                            <br>
+                            <label><input id="radio02" type="radio" name="opcionRadio" value="2" checked="checked">Fecha de infracción</label>
+                        }
+                        else
+                        {
+                            <label><input id="radio01" type="radio" name="opcionRadio" value="1" checked>Fecha de descarga</label>
+                            <br>
+                            <label><input id="radio02" type="radio" name="opcionRadio" value="2">Fecha de infracción</label>
+                        }
+                    }
+                   
+                   
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+            <label class="control-label col-md-2">Rango de fechas</label>
+            <div class="col-md-10">
+                <div class="input-daterange input-group" id="datepicker">
+                    <input id="desde" type="text" class="input-sm form-control" name="fechaDesde" value="@Request.Params["fechaDesde"]" required/>
+                    <span class="input-group-addon">a</span>
+                    <input id="hasta" type="text" class="input-sm form-control" name="fechaHasta" value="@Request.Params["fechaHasta"]" required/>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        @*<br />
+        <br />
+        <br />*@
+        <div class="pull-right">
+            <button type="submit" id="reporte" value="Generar Reporte" class="btn btn-success">Generar Reporte</button>
+            <button id="limpiarCampos" type="button" class="btn btn-danger">Limpiar</button>
+        </div>
+    
+}
+<iframe id="ifrmReportViewer" style="height:1200px; width:100%;" frameborder="0" scrolling="no"></iframe>
+@section scripts{
+    
+    @Scripts.Render("~/bundles/ReportePorDescargaDeBoletas")
+
+    <script>
+        $(document).ready(
+        function () {
+            Calendario();
+            ReportCall();
+            limpiarCampos();
+        });
+    </script>
+
+    <script>
+
+        function limpiarCampos() {
+            $('#limpiarCampos').click(function () {
+                $('input[type="text"]').val('');
+            });
+        };
+
+        function Calendario() {
+            $('.input-daterange').datepicker({
+                startView: 2,
+                autoclose: true,
+                orientation: 'bottom auto',
+                todayHighlight: true,
+                todayBtn: true
+            });
+        };
+
+        function ReportCall() {
+
+            var url = '/Reports/ViewerPage.aspx?reporteID=@ViewBag.ReporteID&nombreReporte=@ViewBag.NombreReporte&parametros=@ViewBag.Parametros';
+
+            var myFrame = document.getElementById('ifrmReportViewer');
+            if (myFrame !== null) {
+                if (myFrame.src) {
+                    myFrame.src = url;
+                }
+                else if (myFrame.contentWindow !== null && myFrame.contentWindow.location !== null) {
+                    myFrame.contentWindow.location = url;
+                }
+                else {
+                    myFrame.setAttribute('src', url);
+                }
+            }
+
+            return false;
+        }
+    </script>
+}

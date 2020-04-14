@@ -1,0 +1,102 @@
+﻿<br />
+<br />
+<br />
+<table align="center">
+    <tr>
+        <td>
+            <h1>Relación Parte Oficial - Planos</h1>
+        </td>
+    </tr>
+</table>
+<br />
+<br />
+
+<table border="1" align="center">
+    <thead>
+        <tr>
+            <td><b>Autoridad Detalle</b></td>
+            <td><b>Fecha Accidente</b></td>
+            <td><b>Fecha Descarga</b></td>
+        </tr>
+     </thead>
+    
+
+       @foreach (var item in ViewBag.Valor)
+        {
+        <tr>
+            <td>                
+                @item.DescripcionAutoridad
+            </td>
+            <td>
+                @item.FechaAccidente
+            </td>
+            <td>
+                @item.FechaDescarga
+            </td>
+        </tr>
+           break;
+       }
+</table>
+<br />
+<br />
+
+<table border="1" align="center">
+    <thead>
+        <tr>
+            <td><b>Número de Boleta </b></td>
+            <td><b>Rol de Persona </b></td>
+            <td><b>Clase de Placa </b></td>
+            <td><b>Código de Placa </b></td>
+            <td><b>Número de Placa </b></td>
+        </tr>
+    </thead>
+    
+    @foreach (var item in ViewBag.Valor)
+    {
+        
+        <tr>
+            <td>
+               @item.NumeroBoleta
+            </td>
+            <td>
+                @item.DescripcionRol
+            </td>
+            <td>
+                @item.ClasePlaca
+            </td>
+            <td>
+                @item.CodigoPlaca
+            </td>
+            <td>
+                @item.NumeroPlaca
+            </td>
+
+        </tr>
+    }
+</table>
+<br />
+<br />
+<table border="1" align="center">
+    <thead>
+        <tr>
+            <td><b>Fecha de la ültima Modificación </b></td>
+            <td><b>Usuario Entregó </b></td>            
+        </tr>
+    </thead>
+
+    @foreach (var item in ViewBag.Valor)
+    {
+        <tr>
+            <td>
+                @item.FechaModificado
+            </td>
+            <td>
+                @item.UsuarioModificaPlano
+            </td>
+        </tr>
+        break;
+    }
+</table>
+
+
+    
