@@ -1434,10 +1434,10 @@ namespace Cosevi.SIBOAC.Reports
                                             //Grabamos la imagen al disco (en un directorio accesible desde IIS) para poder servirla                            
                                             string strfn = Server.MapPath(rutaV + item.fuente.ToString() + "-" + item.serie.ToString() + "-" + item.numero_boleta.ToString() + "-i-" + item.codigo_inspector + ".png");
                                             
-                                            /*FileStream fs = new FileStream(strfn, FileMode.CreateNew, FileAccess.Write);
+                                            FileStream fs = new FileStream(strfn, FileMode.CreateNew, FileAccess.Write);
                                             fs.Write(barrImg, 0, barrImg.Length);
                                             fs.Flush();
-                                            fs.Close();*/
+                                            fs.Close();
                                         }
 
                                         listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, FirmaInspector)).AbsoluteUri, item.numeroparte, item.codigo_inspector);
