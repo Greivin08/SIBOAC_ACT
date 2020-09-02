@@ -1413,35 +1413,44 @@ namespace Cosevi.SIBOAC.Reports
                                     }
                                     else
                                     {
-                                        SqlConnection connection = new SqlConnection(connectionString);
-                                        connection.Open();
-
-                                        //Especificamos la consulta que nos devuelve la imagen
-                                        SqlCommand cmdSelect = new SqlCommand("select Imagen from IMAGENES " +
-                                                                "where Numero=@numero " +
-                                                                "and Tipo=@tipo",
-                                                                connection);
-                                        //Especificamos el parámetro ID de la consulta
-                                        cmdSelect.Parameters.Add("@numero", SqlDbType.Char, 10).Value = item.codigo_inspector;
-                                        cmdSelect.Parameters.Add("@tipo", SqlDbType.Char, 1).Value = "i";
-
-
-                                        //Ejecutamos un Scalar para recuperar sólo la imagen
-                                        byte[] barrImg = (byte[])cmdSelect.ExecuteScalar();                                                 
-
-                                        if (barrImg != null)
+                                        if (item.codigo_inspector == "2360")
                                         {
-                                            //Grabamos la imagen al disco (en un directorio accesible desde IIS) para poder servirla                            
-                                            string strfn = Server.MapPath(rutaV + item.fuente.ToString() + "-" + item.serie.ToString() + "-" + item.numero_boleta.ToString() + "-i-" + item.codigo_inspector + ".png");
-                                            
-                                            FileStream fs = new FileStream(strfn, FileMode.CreateNew, FileAccess.Write);
-                                            fs.Write(barrImg, 0, barrImg.Length);
-                                            fs.Flush();
-                                            fs.Close();
+                                            listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, "2-2019-236000458-i-2360.png")).AbsoluteUri, item.numeroparte, item.codigo_inspector);
+                                            v_nombre = "1";
                                         }
+                                        else
+                                        {
 
-                                        listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, FirmaInspector)).AbsoluteUri, item.numeroparte, item.codigo_inspector);
-                                        v_nombre = "1";                                        
+                                            SqlConnection connection = new SqlConnection(connectionString);
+                                            connection.Open();
+
+                                            //Especificamos la consulta que nos devuelve la imagen
+                                            SqlCommand cmdSelect = new SqlCommand("select Imagen from IMAGENES " +
+                                                                    "where Numero=@numero " +
+                                                                    "and Tipo=@tipo",
+                                                                    connection);
+                                            //Especificamos el parámetro ID de la consulta
+                                            cmdSelect.Parameters.Add("@numero", SqlDbType.Char, 10).Value = item.codigo_inspector;
+                                            cmdSelect.Parameters.Add("@tipo", SqlDbType.Char, 1).Value = "i";
+
+
+                                            //Ejecutamos un Scalar para recuperar sólo la imagen
+                                            byte[] barrImg = (byte[])cmdSelect.ExecuteScalar();
+
+                                            if (barrImg != null)
+                                            {
+                                                //Grabamos la imagen al disco (en un directorio accesible desde IIS) para poder servirla                            
+                                                string strfn = Server.MapPath(rutaV + item.fuente.ToString() + "-" + item.serie.ToString() + "-" + item.numero_boleta.ToString() + "-i-" + item.codigo_inspector + ".png");
+
+                                                FileStream fs = new FileStream(strfn, FileMode.CreateNew, FileAccess.Write);
+                                                fs.Write(barrImg, 0, barrImg.Length);
+                                                fs.Flush();
+                                                fs.Close();
+                                            }
+
+                                            listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, FirmaInspector)).AbsoluteUri, item.numeroparte, item.codigo_inspector);
+                                            v_nombre = "1";
+                                        }                                   
                                     }                                       
                                 }
                             }
@@ -3831,15 +3840,22 @@ namespace Cosevi.SIBOAC.Reports
             document.Close();
 
             string rutaImp = rutaPath + fileReportName;
+            bool exis = false;
+
+            if (System.IO.File.Exists(rutaImp))
+            {
+                exis = true;
+            }
 
             ProcessStartInfo info = new ProcessStartInfo();
             info.Verb = "print";
             info.FileName = rutaImp;
             info.CreateNoWindow = true;
-            info.WindowStyle = ProcessWindowStyle.Hidden;
+            info.WindowStyle = ProcessWindowStyle.Hidden;           
+            //info.UseShellExecute = false;
 
             Process pas = new Process();
-            pas.StartInfo = info;
+            pas.StartInfo = info;            
             pas.Start();
 
             pas.WaitForInputIdle();
