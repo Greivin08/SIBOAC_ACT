@@ -1413,13 +1413,13 @@ namespace Cosevi.SIBOAC.Reports
                                     }
                                     else
                                     {
-                                        if (item.codigo_inspector == "2360")
+                                        /*if (item.codigo_inspector == "2360")
                                         {
                                             listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, "2-2019-236000458-i-2360.png")).AbsoluteUri, item.numeroparte, item.codigo_inspector);
                                             v_nombre = "1";
                                         }
                                         else
-                                        {
+                                        {*/
 
                                             SqlConnection connection = new SqlConnection(connectionString);
                                             connection.Open();
@@ -1450,7 +1450,7 @@ namespace Cosevi.SIBOAC.Reports
 
                                             listaFirmas.Rows.Add(new Uri(Path.Combine(ruta1, FirmaInspector)).AbsoluteUri, item.numeroparte, item.codigo_inspector);
                                             v_nombre = "1";
-                                        }                                   
+                                        //}                                   
                                     }                                       
                                 }
                             }
