@@ -264,3 +264,7 @@ C:\Users\ADC-ROY\source\repos\SIBOAC VERSION VIEJA\Cosevi.SIBOAC\obj\Debug\Cosev
 C:\Users\ADC-ROY\source\repos\SIBOAC VERSION VIEJA\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.csproj.CopyComplete
 C:\Users\ADC-ROY\source\repos\SIBOAC VERSION VIEJA\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.dll
 C:\Users\ADC-ROY\source\repos\SIBOAC VERSION VIEJA\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.pdb
+C:\Users\adcmovil\source\repos\SIBOAC_ACT\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.csprojAssemblyReference.cache
+C:\Users\adcmovil\source\repos\SIBOAC_ACT\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.csproj.CoreCompileInputs.cache
+C:\Users\adcmovil\source\repos\SIBOAC_ACT\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.dll
+C:\Users\adcmovil\source\repos\SIBOAC_ACT\Cosevi.SIBOAC\obj\Debug\Cosevi.SIBOAC.pdb
