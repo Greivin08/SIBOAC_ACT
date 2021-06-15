@@ -400,6 +400,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GetBitacoraDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="GetBitacoraDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GetBitacoraDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="GetConsultaeImpresiondeBoletasDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
